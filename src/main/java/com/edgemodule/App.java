@@ -56,6 +56,7 @@ public class App {
                         System.out.println(
                             String.format("Temperature above threshold %d. Sending message: %s",
                             threshold, msgString));
+                        msg.setProperty("MessageType", "Alert");
                         client.sendEventAsync(msg, eventCallback, msg, App.OUTPUT_NAME);
                     }
                 } catch (Exception e) {
@@ -129,6 +130,7 @@ public class App {
             client.open();
             client.startTwin(new DeviceTwinStatusCallBack(), null, new OnProperty(), null);
 
+            @SuppressWarnings("serial")
             Map<Property, Pair<TwinPropertyCallBack, Object>> onDesiredPropertyChange = new HashMap<Property, Pair<TwinPropertyCallBack, Object>>() {
                 {
                     put(new Property(App.TEMP_THRESHOLD, null), new Pair<TwinPropertyCallBack, Object>(new OnProperty(), null));
